@@ -20,6 +20,7 @@ Tavoitellut aika- ja tilavaativuudet vastaavat tunnettuja A* ja A* + JPS vaativu
 Aikavaativuudet:
 * A* = O((|E|+|V|)log|V|)
 * A* + JPS = O((|E|+|V|)log|V|)
+
 Tilavaativuudet:
 * A* = O(|E|)
 * A* + JPS = O(|E|)
