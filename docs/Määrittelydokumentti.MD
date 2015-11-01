@@ -27,7 +27,11 @@ Tilavaativuudet:
 ## Lähteet
 
 [A* Wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm)
+
 [Jump Point Search Wikipedia] (https://en.wikipedia.org/wiki/Jump_point_search)
+
 [Jump Point Search](https://harablog.wordpress.com/2011/09/07/jump-point-search/)
+
 [How to Speed Up A* Pathfinding With the Jump Point Search Algorithm](http://gamedevelopment.tutsplus.com/tutorials/how-to-speed-up-a-pathfinding-with-the-jump-point-search-algorithm--gamedev-5818)
+
 [Rectangular Symmetry Reduction](https://harablog.wordpress.com/2011/09/01/rectangular-symmetry-reduction/)
