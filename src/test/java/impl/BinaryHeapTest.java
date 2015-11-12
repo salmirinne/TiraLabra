@@ -13,21 +13,20 @@ public class BinaryHeapTest {
 	
 	private static final int HEAP_TEST_SIZE = 50;
 	
-	private BinaryHeap<Object> binaryHeap;
+	private BinaryHeap<Integer> binaryHeap;
 	private List<Integer> orderedValues;
 
 	@Before
 	public void setUp() {
-		this.binaryHeap = new BinaryHeap<Object>();
+		this.binaryHeap = new BinaryHeap<Integer>();
 		this.orderedValues = new ArrayList<>(HEAP_TEST_SIZE);
 	}
 	
 	private void buildHeap() {
 		Random random = new Random();
 		for (int i = 0; i < HEAP_TEST_SIZE; i++) {
-			Node node = new Node();
 			int value = random.nextInt(1000);
-			node.value = value;
+			Integer node = new Integer(value);
 			binaryHeap.insert(node);
 			orderedValues.add(value);
 		}
@@ -41,22 +40,20 @@ public class BinaryHeapTest {
 	
 	@Test
 	public void testInsert() {
-		Node node = new Node();
-		node.value = 1;
+		Integer node = new Integer(1);
 		binaryHeap.insert(node);
-		assertEquals(1, binaryHeap.min().value);
+		assertEquals(new Integer(1), binaryHeap.min());
 	}
 	
 	@Test
 	public void testInsertOrdering() {
 		buildHeap();
-		assertEquals((int)orderedValues.get(0), binaryHeap.min().value);
+		assertEquals(orderedValues.get(0), binaryHeap.min());
 	}
 	
 	@Test
 	public void testDelete() {
-		Node node = new Node();
-		node.value = 1;
+		Integer node = new Integer(1);
 		binaryHeap.insert(node);
 		binaryHeap.delete();
 		assertEquals(true, binaryHeap.isEmpty());
@@ -66,7 +63,7 @@ public class BinaryHeapTest {
 	public void testDeleteAndHeapify() {
 		buildHeap();
 		for (int i = 0; i < HEAP_TEST_SIZE; i++) {
-			assertEquals((int)orderedValues.get(i), binaryHeap.delete().value);
+			assertEquals(orderedValues.get(i), binaryHeap.delete());
 		}
 		assertEquals(true, binaryHeap.isEmpty());
 	}

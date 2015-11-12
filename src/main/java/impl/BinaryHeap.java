@@ -7,13 +7,13 @@ import java.util.Arrays;
  *
  * @param <T> Lisättävän solmun tyyppi
  */
-public class BinaryHeap<T> {
+public class BinaryHeap<T extends Comparable<T>> {
 
-	private Node<T>[] table;
+	private T[] table;
 	private int size;
 	
 	public BinaryHeap() {
-		this.table = new Node[16];
+		this.table = (T[])new Comparable[16];
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class BinaryHeap<T> {
 	 * 
 	 * @return Keon pienimmän arvon omaava solmu
 	 */
-	public Node<T> min() {
+	public T min() {
 		return table[0];
 	}
 	
@@ -39,11 +39,11 @@ public class BinaryHeap<T> {
 	 * 
 	 * @return Pienimmän arvon omaava solmu tai null, jos keko on tyhjä
 	 */
-	public Node<T> delete() {
+	public T delete() {
 		if (isEmpty()) {
 			return null;
 		}
-		Node<T> min = min();
+		T min = min();
 		table[0] = table[--size];
 		table[size] = null;
 		heapify();
@@ -55,7 +55,7 @@ public class BinaryHeap<T> {
 	 * 
 	 * @param node Lisättävä solmu
 	 */
-	public void insert(Node<T> node) {
+	public void insert(T node) {
 		table[size] = node;
 		int index = size++;
 		// kasvattaa tarvittaessa keon kokoa kaksinkertaistamalla sen
@@ -63,7 +63,7 @@ public class BinaryHeap<T> {
 			table = Arrays.copyOf(table, table.length * 2);
 		}
 		// vaihtaa vanhemman ja lapsen paikkaa mikäli lapsen arvo on pienempi
-		while (index > 0 && parent(index).value > table[index].value) {
+		while (index > 0 && parent(index).compareTo(table[index]) > 0) {
             swap(index, parentIndex(index));
             index = parentIndex(index);
         }     
@@ -75,14 +75,14 @@ public class BinaryHeap<T> {
 	private void heapify() {
 		int i = 0;
 		// vasen lapsi on olemassa
-		while (indexExists(leftChildIndex(i))) {
+		while (leftChildIndex(i) > 0) {
 			int smallestIndex = i;
 			// vasemmalla lapsella on pienempi arvo
-			if (left(i).value < table[i].value) {
+			if (left(i).compareTo(table[i]) < 0) {
 				smallestIndex = leftChildIndex(i);
 			}
 			// oikea lapsi on olemassa ja sillä on pienempi arvo
-			if (indexExists(rightChildIndex(i)) && right(i).value < table[smallestIndex].value) {
+			if (rightChildIndex(i) > 0 && right(i).compareTo(table[smallestIndex]) < 0) {
 				smallestIndex = rightChildIndex(i);
 			}
 			// jommalla kummalla lapsista on pienempi arvo
@@ -96,12 +96,12 @@ public class BinaryHeap<T> {
 	}
 	
 	private void swap(int index1, int index2) {
-		Node<T> temp = table[index1];
+		T temp = table[index1];
 		table[index1] = table[index2];
 		table[index2] = temp;
 	}
 	
-	private Node<T> parent(int i) {
+	private T parent(int i) {
 		return table[(i - 1) / 2];
 	}
 	
@@ -110,7 +110,7 @@ public class BinaryHeap<T> {
 		return index < size ? index : -1;
 	}
 	
-	private Node<T> left(int i) {
+	private T left(int i) {
 		return table[2 * i + 1];
 	}
 	
@@ -119,17 +119,13 @@ public class BinaryHeap<T> {
 		return index < size ? index : -1;
 	}
 	
-	private Node<T> right(int i) {
+	private T right(int i) {
 		return table[2 * i + 2];
 	}
 	
 	private int rightChildIndex(int i) {
 		int index = 2 * i + 2;
 		return index < size ? index : -1;
-	}
-	
-	private boolean indexExists(int i) {
-		return i > 0 && i < size;
 	}
 	
 }
