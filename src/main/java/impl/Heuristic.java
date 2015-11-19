@@ -23,6 +23,13 @@ public enum Heuristic {
 		int dx = Math.abs(n1.x - n2.x);
 		int dy = Math.abs(n1.y - n2.y);
 		return (float)(dx + dy);
+	}),
+	
+	/**
+	 * Heuristiikkafunktiota ei oteta huomioon (Dijkstran algoritmi)
+	 */
+	DIJKSTRA((n1, n2) -> {
+		return 0f;
 	});
 	
 	private BiFunction<Node, Node, Float> heuristic;

@@ -17,6 +17,20 @@ public class BinaryHeap<T extends Comparable<T>> {
 	}
 	
 	/**
+	 * Alustava toteutus sille löytyykö keosta annettua elementtiä (O(n))
+	 * 
+	 * @param obj Verrattava elementti
+	 * @return true, jos elementti löytyy keosta
+	 */
+	public boolean contains(T obj) {
+		for (T t : table) {
+			if (t == null) return false;
+			if (t.compareTo(obj) == 0) return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Tarkistaa onko keossa elementtejä
 	 * 
 	 * @return true, jos keko on tyhjä
