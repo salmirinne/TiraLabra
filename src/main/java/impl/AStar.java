@@ -1,18 +1,20 @@
 package impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * A* algoritmin toteutus
  */
 public class AStar {
+	
+	private static final float SQRT2 = (float)Math.sqrt(2);
 
 	private Grid grid;
 	private Heuristic heuristic;
+	private long time;
+	private int iterations;
 
 	public AStar(Grid grid) {
 		this.grid = grid;
+		this.heuristic = Heuristic.EUCLIDEAN;
 	}
 
 	/**
@@ -33,45 +35,90 @@ public class AStar {
 		node.heuristic = heuristic.getHeuristic(node, grid.getEnd());
 	}
 	
-	/*
+	/**
+	 * P‰ivitt‰‰ kuljetun et‰isyyden solmuun sen edelt‰j‰st‰ siten, ett‰ matka v‰li-ilmansuuntiin 
+	 * on sqrt(2); muuten 1
+	 * 
+	 * @param node Mihin solmuun tullaan
+	 * @param previous Mist‰ solmusta tultiin
+	 */
+	private void updateCost(Node node, Node previous) {
+		if (node.x - previous.x == 0 || node.y - previous.y == 0)
+			node.cost = previous.cost + 1;
+		else	
+			node.cost = previous.cost + SQRT2;
+	}
+	
+	/**
+	 * Palauttaa polunetsint‰‰n kuluneen ajan
+	 * 
+	 * @return Polunetsint‰‰n kulunut aika
+	 */
+	public long getTime() {
+		return time;
+	}
+	
+	/**
 	 * Etsii lyhimm‰n polun ruudukossa alkusolmusta maalisolmuun
 	 */
 	public void findPath() {
 		
+		long startTime = System.currentTimeMillis();
+		iterations = 0;
+		
 		BinaryHeap<Node> openQueue = new BinaryHeap<Node>();
 		
-		// TODO: tehokkaampi contains(..) toteutus kuin O(n)
-		List<Node> closedList = new ArrayList<>();
-		
+		// Alustetaan l‰htˆsolmu ja lis‰t‰‰n se ensimm‰iseksi tutkittavaksi solmuksi
 		Node start = grid.getStart();
 		start.cost = 0;
 		computeHeuristic(start);
 		
 		openQueue.insert(start);
+		start.opened = true;
 		
 		while (!openQueue.isEmpty()) {
 			
 			Node current = openQueue.delete();
-			if (current.equals(grid.getEnd())) {
-				System.out.println("Found path..");
-				printPath(current);
+			
+			// Lopetetaan jos loppusolmu on tarkastettu
+			if (grid.getEnd().closed) {
+				time = System.currentTimeMillis() - startTime;
+				System.out.println("Found path.. Total iterations=" 
+								   + iterations + " Time taken=" + time 
+								   + "ms Path length=" + grid.getEnd().cost 
+								   + " Heuristic=" + heuristic
+								   + " Diagonal=" + grid.isDiagonalAllowed());
+								   	
 				return;
 			}
 			
-			System.out.println("Evaluating node " + current);
+			current.closed = true;
+			iterations++;
 			
-			closedList.add(current);
-			
-			for (Node node : grid.getNeighbours(current)) {
+			// Otetaan tarkasteluun naapurisolmut
+			for (Node neighbour : grid.getNeighbours(current)) {
 				
-				if (!closedList.contains(node)) {
+				if (!neighbour.closed) {
 					
-					if (node.cost == 0) node.cost = current.cost + 1;
-					if (node.heuristic == 0 ) computeHeuristic(node);
+					// Alustetaan naapurin et‰isyydet mik‰li siihen tullaan ensimm‰ist‰ kertaa
+					if (neighbour.cost == 0) updateCost(neighbour, current);
+					if (neighbour.heuristic == 0 ) computeHeuristic(neighbour);
 					
-					if (!openQueue.contains(node)) {
-						openQueue.insert(node);
-						node.previous = current;
+					// Lis‰t‰‰n tarvittaessa naapuri tarkasteltavien solmujen joukkoon
+					if (!neighbour.opened) {
+						openQueue.insert(neighbour);
+						neighbour.opened = true;
+						neighbour.previous = current;
+					}
+					
+					/* P‰ivitet‰‰n naapurisolmun edelt‰j‰ksi nykyinen solmu jos siihen p‰‰see lyhyemp‰‰
+					 * polkua pitkin k‰ytt‰en nykyist‰ solmua ja p‰ivitet‰‰n naapurin muuttunutta
+					 * et‰isyysarviota minimikeossa
+					 */
+					if (neighbour.previous.cost >= current.cost) {
+						neighbour.previous = current;
+						updateCost(neighbour, current);
+						openQueue.decreaseKey(neighbour);
 					}
 					
 				}
@@ -79,21 +126,12 @@ public class AStar {
 			}
 			
 		}
-		
-		System.out.println("Path not found");
-		
-	}
-
-	/**
-	 * T‰ll‰ hetkell‰ apumetodi A* lyhimm‰n polun etsinn‰n testaamiseen
-	 */
-	private void printPath(Node current) {
-		System.out.println("Path length: " + (current.cost - 2));
-		while (current.compareTo(grid.getStart()) != 0) {
-			System.out.println(current);
-			current = current.previous;
-		}
-		System.out.println(current);
+		time = System.currentTimeMillis() - startTime;
+		System.out.println("Path not found.. Total iterations=" 
+						   + iterations + " Time taken=" + time 
+						   + "ms Path length=" + grid.getEnd().cost 
+						   + " Heuristic=" + heuristic
+						   + " Diagonal=" + grid.isDiagonalAllowed());
 	}
 	
 }

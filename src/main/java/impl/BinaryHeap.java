@@ -13,21 +13,7 @@ public class BinaryHeap<T extends Comparable<T>> {
 	private int size;
 	
 	public BinaryHeap() {
-		this.table = (T[])new Comparable[16];
-	}
-	
-	/**
-	 * Alustava toteutus sille löytyykö keosta annettua elementtiä (O(n))
-	 * 
-	 * @param obj Verrattava elementti
-	 * @return true, jos elementti löytyy keosta
-	 */
-	public boolean contains(T obj) {
-		for (T t : table) {
-			if (t == null) return false;
-			if (t.compareTo(obj) == 0) return true;
-		}
-		return false;
+		this.table = (T[])new Comparable[32];
 	}
 	
 	/**
@@ -81,6 +67,25 @@ public class BinaryHeap<T extends Comparable<T>> {
             swap(index, parentIndex(index));
             index = parentIndex(index);
         }     
+	}
+	
+	/**
+	 * Vie parametrina annetun solmun oikealle paikalleen keossa
+	 * 
+	 * @param node Solmu, jonka avaimen arvoa pienennettiin
+	 */
+	public void decreaseKey(T node) {
+		int index = 0;
+		for (int i = 0; i < size; i++) {
+			if (node.equals(table[i])) {
+				index = i;
+				break;
+			}
+		}
+		while (index > 0 && parent(index).compareTo(table[index]) > 0) {
+			swap(index, parentIndex(index));
+			index = parentIndex(index);
+		}
 	}
 	
 	/**

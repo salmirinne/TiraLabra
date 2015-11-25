@@ -23,6 +23,16 @@ public class Node implements Comparable<Node> {
 	public boolean blocked;
 	
 	/**
+	 * Onko solmu lis‰tty minimikekoon
+	 */
+	public boolean opened;
+	
+	/**
+	 * Onko solmun tarkastelu p‰‰ttynyt
+	 */
+	public boolean closed;
+	
+	/**
 	 * Mist‰ solmusta t‰h‰n solmuun on tultu
 	 */
 	public Node previous;

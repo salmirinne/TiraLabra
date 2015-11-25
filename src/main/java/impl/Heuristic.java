@@ -8,7 +8,7 @@ import java.util.function.BiFunction;
 public enum Heuristic {
 	
 	/**
-	 * Etäisyys maalisolmuun suorinta tietä (linnuntietä)
+	 * Lyhin etäisyys maalisolmuun suorinta tietä (linnuntietä)
 	 */
 	EUCLIDEAN((n1, n2) -> {
 		int dx = Math.abs(n1.x - n2.x);
@@ -17,12 +17,22 @@ public enum Heuristic {
 	}),
 	
 	/**
-	 * Etäisyys maalisolmuun kulkemalla ylös/alas tai vasemmalle/oikealle
+	 * Lyhin etäisyys maalisolmuun kulkemalla ylös/alas tai vasemmalle/oikealle
 	 */
 	MANHATTAN((n1, n2) -> {
 		int dx = Math.abs(n1.x - n2.x);
 		int dy = Math.abs(n1.y - n2.y);
 		return (float)(dx + dy);
+	}),
+	
+	/**
+	 * Lyhin etäisyys maalisolmuun siten, että matka jokaiseen naapurisolmuun on yhtä suuri;
+	 * vrt. kuninkaan liikkuminen shakkilaudalla
+	 */
+	CHEBYSHEV((n1, n2) -> {
+		int dx = Math.abs(n1.x - n2.x);
+		int dy = Math.abs(n1.y - n2.y);
+		return (float)(Math.max(dx, dy));
 	}),
 	
 	/**

@@ -13,53 +13,74 @@ public class AStarTest {
 	@Before
 	public void setUp() {
 		grid = new Grid();
-		astar = new AStar(grid);
-		astar.setHeuristic(Heuristic.EUCLIDEAN);
-	}
-	
-	@Test
-	public void testEuclideanHeuristic() {
-		grid.setStart(25, 25);
-		grid.setEnd(50, 50);
-		astar.setHeuristic(Heuristic.EUCLIDEAN);
-		Node start = grid.getStart();
-		astar.computeHeuristic(start);
-		assertEquals(35.35, start.heuristic, 0.1);
-	}
-	
-	@Test
-	public void testManhattanHeuristic() {
-		grid.setStart(25, 25);
-		grid.setEnd(50, 50);
-		astar.setHeuristic(Heuristic.MANHATTAN);
-		Node start = grid.getStart();
-		astar.computeHeuristic(start);
-		assertEquals(50.0, start.heuristic, 0.1);
-	}
-	
-	/*
-	 * Tällä hetkellä vain tulosteen tarkastelua
-	 */
-	@Test
-	public void testPathFinding() {
-		/* . . . . . . .  
-		 * . . . . . . . 
-		 * . . S @ @ @ .
-		 * . . . @ E . .
-		 * . . . @ @ @ .
-		 * . . . . . . .
-		 */
-		grid.setStart(2, 2);
-		grid.setEnd(3, 4);
-		grid.setBlocked(2, 3, true);
-		grid.setBlocked(2, 4, true);
-		grid.setBlocked(2, 5, true);
-		grid.setBlocked(3, 3, true);
-		grid.setBlocked(4, 3, true);
-		grid.setBlocked(4, 4, true);
-		grid.setBlocked(4, 5, true);
-		astar.findPath();
+		grid.allowDiagonal(true);
+		grid.setStart(40, 40);
+		grid.setEnd(60, 60);
 		
+		for (int i = 5; i < 95; i++) {
+			grid.setBlocked(i, 50, true);
+			grid.setBlocked(50, i, true);
+		}
+		
+		astar = new AStar(grid);
+	}
+	
+	@Test
+	public void testPathFindingWithEuclidean() {
+		astar.findPath();
+		assertEquals(143.9, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithEuclideanNoDiagonal() {
+		grid.allowDiagonal(false);
+		astar.findPath();
+		assertEquals(182.0, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithManhattan() {
+		astar.setHeuristic(Heuristic.MANHATTAN);
+		astar.findPath();
+		assertEquals(143.9, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithManhattanNoDiagonal() {
+		grid.allowDiagonal(false);
+		astar.setHeuristic(Heuristic.MANHATTAN);
+		astar.findPath();
+		assertEquals(182.0, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithChebyshev() {
+		astar.setHeuristic(Heuristic.CHEBYSHEV);
+		astar.findPath();
+		assertEquals(143.9, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithChebyshevNoDiagonal() {
+		grid.allowDiagonal(false);
+		astar.setHeuristic(Heuristic.CHEBYSHEV);
+		astar.findPath();
+		assertEquals(182.0, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithDijkstra() {
+		astar.setHeuristic(Heuristic.DIJKSTRA);
+		astar.findPath();
+		assertEquals(143.9, grid.getEnd().cost, 0.1);
+	}
+	
+	@Test
+	public void testPathFindingWithDijkstraNoDiagonal() {
+		grid.allowDiagonal(false);
+		astar.setHeuristic(Heuristic.DIJKSTRA);
+		astar.findPath();
+		assertEquals(182.0, grid.getEnd().cost, 0.1);
 	}
 	
 }
