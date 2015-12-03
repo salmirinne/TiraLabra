@@ -3,8 +3,11 @@
 ## Asennus
 
 git clone https://github.com/salmirinne/TiraLabra.git
+
 cd TiraLabra
+
 mvn install
+
 java -jar target/TiraLabra-1.0.0-SNAPSHOT.jar
 
 ## Käyttöohjeet
