@@ -9,16 +9,22 @@ java -jar target/TiraLabra-1.0.0-SNAPSHOT.jar
 
 ## K‰yttˆohjeet
 
-**Start** - Etsii lyhimm‰n polun
+**Start** - Etsii lyhimm‰n polun ruudukossa
+
 **Reset** - Tyhjent‰‰ edellisen haun tulokset muistista
+
 **Clear** - Tyhjent‰‰ edellisen haun tulokset ja poistaa esteet ruudukosta
+
 **Random** - Lis‰‰ satunnaisesti max 1000 estett‰ ruudukkoon
 
 **A* - A*
+
 **JPS** - Jump Point Search
 
 **Euclidean** - Valitse pudotusvalikosta heuristiikkafunktio
+
 **Diagonal** - Saliitaanko siirtyminen v‰li-ilmansuuntiin
 
 Alku- ja maalisolmun paikkaa voi vaihtaa hiirell‰ vet‰m‰ll‰
+
 Esteit‰ voi lis‰t‰ vet‰m‰ll‰ tai painamalla hiirt‰
