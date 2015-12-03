@@ -1,31 +1,35 @@
 package ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import impl.AStar;
 import impl.Grid;
 import impl.Heuristic;
+import impl.PathFinding;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 
 public class GUI {
 
 	private JFrame frame;
-	private JPanel panel;
-	private JPanel setup;
 	private Grid grid;
-	private AStar astar;
+	private PathFinding astar;
+	private PathFinding jps;
+	private PathFinding pathFinding;
 	
-	public GUI(Grid grid, AStar astar) {
+	public GUI(Grid grid, PathFinding astar, PathFinding jps) {
 		this.grid = grid;
 		this.astar = astar;
+		this.jps = jps;
 		build();
 	}
 
@@ -35,10 +39,25 @@ public class GUI {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		
-		setup = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel setup = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
-		JLabel result = new JLabel("Length: " + grid.getEnd().cost);
+		JPanel debug = new JPanel();
+		JLabel result = new JLabel(astar.debug());
+		debug.add(result);
+		
+		GridPanel panel = new GridPanel(grid);
+		MouseAdapter listener = new GridMouseListener(panel, grid);
+		panel.addMouseListener(listener);
+		panel.addMouseMotionListener(listener);
+		
 		JComboBox<Heuristic> heuristics = new JComboBox<>(Heuristic.values());
+		
+		ButtonGroup algorithms = new ButtonGroup();
+		JRadioButton astarButton = new JRadioButton("A*", true);
+		algorithms.add(astarButton);
+		JRadioButton jpsButton = new JRadioButton("JPS");
+		algorithms.add(jpsButton);
+		
 		JCheckBox diagonal = new JCheckBox("Diagonal", true);
 		
 		JButton start = new JButton("Start");
@@ -46,11 +65,12 @@ public class GUI {
 		start.addActionListener(ae -> {
 			grid.reset(false);
 			grid.allowDiagonal(diagonal.isSelected());
-			astar.setHeuristic(Heuristic.values()[heuristics.getSelectedIndex()]);
-			astar.findPath();
-			result.setText("Length: " 
-						    + (grid.getEnd().cost != 0 ? grid.getEnd().cost : "\u221E")
-						    + "   Time: " + astar.getTime() + "ms");
+			pathFinding = astarButton.isSelected() ? astar : jps ;
+			pathFinding.setHeuristic(Heuristic.values()[heuristics.getSelectedIndex()]);
+			pathFinding.findPath();
+			panel.setPath(pathFinding.createPath());
+			result.setText(pathFinding.debug());
+			debug.repaint();
 			panel.repaint();
 		});
 		
@@ -75,14 +95,14 @@ public class GUI {
 		});
 		setup.add(random);
 		
+		setup.add(astarButton);
+		setup.add(jpsButton);
 		setup.add(heuristics);
 		setup.add(diagonal);
-		setup.add(result);
 		
-		frame.add(setup, BorderLayout.NORTH);
-		
-		panel = new GridPanel(grid);
-		frame.add(panel);
+		frame.add(setup, BorderLayout.PAGE_START);
+		frame.add(debug, BorderLayout.LINE_START);
+		frame.add(panel, BorderLayout.PAGE_END);
 		
         frame.pack();
         frame.setLocationRelativeTo(null);

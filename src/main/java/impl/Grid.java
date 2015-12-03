@@ -1,7 +1,6 @@
 package impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -10,9 +9,14 @@ import java.util.Random;
 public class Grid {
 	
 	/**
-	 * Ruudukon sivun pituus
+	 * Ruudukon leveys
 	 */
-	private static final int GRID_SIZE = 100;
+	public static final int WIDTH = 100;
+	
+	/**
+	 * Ruudukon korkeus
+	 */
+	public static final int HEIGHT = 100;
 	
 	private Node[][] grid;
 	private Node start;
@@ -24,20 +28,16 @@ public class Grid {
 	private boolean allowDiagonal;
 	
 	public Grid() {
-		grid = new Node[GRID_SIZE][GRID_SIZE];
+		grid = new Node[WIDTH][HEIGHT];
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y < grid[0].length; y++) {
 				grid[x][y] = new Node(x, y);
 			}
 		}
 	}
-	
-	public Node[][] getGrid() {
-		return grid;
-	}
 
 	public void setStart(int x, int y) {
-		start = this.grid[x][y];
+		start = grid[x][y];
 	}
 	
 	public Node getStart() {
@@ -52,6 +52,10 @@ public class Grid {
 		return end;
 	}
 	
+	public Node getNode(int x, int y) {
+		return inBounds(x, y) ? grid[x][y] : null;
+	}
+	
 	/**
 	 * Asetetaan este annettuihin koordinaatteihin
 	 * 
@@ -61,6 +65,16 @@ public class Grid {
 		if (!grid[x][y].equals(start) && !grid[x][y].equals(end)) {
 			grid[x][y].blocked = blocked;
 		}
+	}
+	
+	/**
+	 * Onko mahdollista siirtyä parametreina annettuun solmuun
+	 * 
+	 * @return true, jos solmuun on mahdollista siirtyä
+	 */
+	public boolean isWalkable(int x, int y) {
+		Node node = getNode(x, y);
+		return node != null ? !node.blocked : false;
 	}
 	
 	/**
@@ -84,13 +98,14 @@ public class Grid {
 	public void reset(boolean clearBlocks) {
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y < grid[0].length; y++) {
-				grid[x][y].cost = 0;
-				grid[x][y].heuristic = 0;
+				Node node = grid[x][y];
+				node.cost = 0;
+				node.heuristic = 0;
 				if (clearBlocks) 
-					grid[x][y].blocked = false;
-				grid[x][y].opened = false;
-				grid[x][y].closed = false;
-				grid[x][y].previous = null;
+					node.blocked = false;
+				node.opened = false;
+				node.closed = false;
+				node.previous = null;
 			}
 		}
 	}
@@ -101,7 +116,7 @@ public class Grid {
 	public void randomise() {
 		Random random = new Random();
 		for (int i = 0; i < 1000; i++) {
-			setBlocked(random.nextInt(GRID_SIZE), random.nextInt(GRID_SIZE), true);
+			setBlocked(random.nextInt(WIDTH), random.nextInt(HEIGHT), true);
 		}
 	}
 	
@@ -113,37 +128,43 @@ public class Grid {
 	 * @return Annetun solmun naapurit ruudukossa joihin on mahdollista siirtyä
 	 */
 	public Node[] getNeighbours(Node node) {
+		int i = 0;
+		Node[] neighbours = new Node[8];
 		if (allowDiagonal) {
-			List<Node> neighbours = new ArrayList<>(8);
 			for (int x = -1; x <= 1; x++) {
 				for (int y = -1; y <= 1; y++) {
-					if (!validNeighbour(node.x + x, node.y + y))
+					if (!isWalkable(node.x + x, node.y + y))
+						continue;
+					if (x != 0 && y != 0 && !validDiagonal(node.x, node.y, x, y))
 						continue;
 					if (x == 0 && y == 0)
 						continue;
-					neighbours.add(grid[node.x + x][node.y + y]);
+					neighbours[i++] = grid[node.x + x][node.y + y];
 				}
 			}
-			return neighbours.toArray(new Node[0]);
+			return Arrays.copyOf(neighbours, i);
 		}
-		List<Node> neighbours = new ArrayList<>(4);
-		if (validNeighbour(node.x, node.y - 1)) {
-			neighbours.add(grid[node.x][node.y - 1]);
+		if (isWalkable(node.x, node.y - 1)) {
+			neighbours[i++] = grid[node.x][node.y - 1];
 		}
-		if (validNeighbour(node.x + 1, node.y)) {
-			neighbours.add(grid[node.x + 1][node.y]);
+		if (isWalkable(node.x + 1, node.y)) {
+			neighbours[i++] = grid[node.x + 1][node.y];
 		}
-		if (validNeighbour(node.x, node.y + 1)) {
-			neighbours.add(grid[node.x][node.y + 1]);
+		if (isWalkable(node.x, node.y + 1)) {
+			neighbours[i++] = grid[node.x][node.y + 1];
 		}
-		if (validNeighbour(node.x - 1, node.y)) {
-			neighbours.add(grid[node.x - 1][node.y]);
+		if (isWalkable(node.x - 1, node.y)) {
+			neighbours[i++] = grid[node.x - 1][node.y];
 		}
-		return neighbours.toArray(new Node[0]);
+		return Arrays.copyOf(neighbours, i);
 	}
 	
-	private boolean validNeighbour(int x, int y) {
-		return x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !grid[x][y].blocked;
+	private boolean inBounds(int x, int y) {
+		return x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT;
+	}
+	
+	private boolean validDiagonal(int x, int y, int dx, int dy) {
+		return isWalkable(x + dx, y) || isWalkable(x, y + dy);
 	}
 	
 }

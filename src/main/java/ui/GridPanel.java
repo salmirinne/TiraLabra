@@ -6,18 +6,33 @@ import impl.Node;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+/**
+ * Piirtoalusta polunetsinnän havainnoinnille
+ */
 public class GridPanel extends JPanel {
 	
-	private static final int NODE_SIZE = 7;
+	private static final int NODE_SIZE = 8;
 	
 	private Grid grid;
+	private Node[] path;
 	
 	public GridPanel(Grid grid) {
 		this.grid = grid;
-		setPreferredSize(new Dimension(700, 700));
+		setPreferredSize(new Dimension(NODE_SIZE * Grid.WIDTH, NODE_SIZE * Grid.HEIGHT));
+	}
+	
+	protected Node getPosition(MouseEvent e) {
+		int x = e.getX() / NODE_SIZE;
+		int y = e.getY() / NODE_SIZE;		
+		return grid.getNode(x, y);
+	}
+	
+	protected void setPath(Node[] path) {
+		this.path = path;
 	}
 	
 	@Override
@@ -25,13 +40,19 @@ public class GridPanel extends JPanel {
 		super.paintComponent(g);
 		
 		g.setColor(new Color(35, 35, 35));
-		g.fillRect(0, 0, 700, 700);
+		g.fillRect(0, 0, NODE_SIZE * Grid.WIDTH, NODE_SIZE * Grid.HEIGHT);
 		
-		Node[][] nodes = grid.getGrid();
+		if (path != null) {
+			g.setColor(Color.BLUE);
+			for (Node node : path) {
+				g.fillRect(node.x * NODE_SIZE + 1, node.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
+			}
+		}
+		
 		g.setColor(Color.BLACK);
-		for (int x = 0; x < nodes.length; x++) {
-			for (int y = 0; y < nodes[0].length; y++) {
-				Node node = nodes[x][y];
+		for (int x = 0; x < Grid.WIDTH; x++) {
+			for (int y = 0; y < Grid.HEIGHT; y++) {
+				Node node = grid.getNode(x, y);
 				g.drawRect(node.x * NODE_SIZE, node.y * NODE_SIZE, NODE_SIZE, NODE_SIZE);
 				if (node.blocked) {
 					g.setColor(Color.WHITE);
@@ -45,14 +66,7 @@ public class GridPanel extends JPanel {
 		g.setColor(Color.GREEN);
 		g.fillRect(start.x * NODE_SIZE + 1, start.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
 		
-		g.setColor(Color.BLUE);
 		Node end = grid.getEnd();
-		Node current = end;
-		while (current != null && !current.equals(grid.getStart())) {
-			g.fillRect(current.x * NODE_SIZE + 1, current.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
-			current = current.previous;
-		}
-		
 		g.setColor(Color.RED);
 		g.fillRect(end.x * NODE_SIZE + 1, end.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
 	}
