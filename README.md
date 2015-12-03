@@ -17,10 +17,6 @@ java -jar target/TiraLabra-1.0.0-SNAPSHOT.jar
 
 **Random** - Lis‰‰ satunnaisesti max 1000 estett‰ ruudukkoon
 
-**A* - A*
-
-**JPS** - Jump Point Search
-
 **Euclidean** - Valitse pudotusvalikosta heuristiikkafunktio
 
 **Diagonal** - Saliitaanko siirtyminen v‰li-ilmansuuntiin
