@@ -60,7 +60,7 @@ public class JumpPointSearch extends PathFinding {
 					int dx = Math.abs(jumpPoint.x - current.x);
 					int dy = Math.abs(jumpPoint.y - current.y);
 					
-					/*  Octile distance (lyhin et‰isyys kahden solmun v‰lill‰, 
+					/*  Octile distance (lyhin mahdollinen kuljettu et‰isyys kahden solmun v‰lill‰, 
 					 *  miss‰ diagonaalinen siirtym‰ sqrt(2); muuten 1
 					 */
 					float octile = (dx + dy) + (SQRT2 - 2) * Math.min(dx, dy);
@@ -138,6 +138,7 @@ public class JumpPointSearch extends PathFinding {
 			}
 			
 		}
+		// Jatketaan hypp‰‰mist‰ eteenp‰in rekursiivisesti
 		return jump(x + dx, y + dy, dx, dy);
 	}
 	
