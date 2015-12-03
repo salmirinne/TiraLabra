@@ -11,14 +11,25 @@ Lisätään myöhemmin
 
 ## Puutteet ja parannusehdotukset
 
-JPS algoritmin toteutus puuttuu toistaiseksi.
 Siirtymisen väli-ilmansuuntiin sallivassa ruudukossa Manhattanin heuristiikka ei aina palauta lyhintä polkua,
 koska se saattaa yliarvioida lyhimmän etäisyyden maaliin joissakin tapauksissa. Esimerkiksi matka (1,1) -> (0,0)
 on Manhattanin arvion mukaan |1-0|+|1-0|=2, mutta ohjelman toteutuksen mukaan sqrt(2).
 
 ## Suorituskyky- ja O-analyysivertailu
 
-Lisätään myöhemmin
+Suluissa kymmenen haun ajallinen keskiarvo, openlistin koko ja käytetty heuristiikka
+
+Oletusruudukko
+
+A* (25ms, 9739, Dijkstra)
+A* (25ms, 6130, Euclidean)
+JPS (1ms, 13, Euclidean)
+
+Satunnainen 
+
+A* (15ms, 4790, Dijkstra)
+A* (2ms, 464, Euclidean)
+JPS (1ms, 136, Euclidean)
 
 ## Lähteet
 
