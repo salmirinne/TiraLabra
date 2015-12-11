@@ -17,14 +17,19 @@ on Manhattanin arvion mukaan |1-0|+|1-0|=2, mutta ohjelman toteutuksen mukaan sq
 
 ## Suorituskyky- ja O-analyysivertailu
 
-Suluissa kymmenen haun ajallinen keskiarvo, openlistin koko ja käytetty heuristiikka
+Aika (ms) laskettu kymmenen perättäisen haun keskiarvona
 
 ### Oletusruudukko
-| Algoritmi | Heuristiikka | Aika (ms) | Iterations | Polun pituus |
-|-----------|--------------|-----------|------------|--------------|
-| A*        | Dijkstra     | 25        | 9739       | 149.19       |
-| A*        | Euclidean    | 25        | 6130       | 149.19       |
-| JPS       | Euclidean    | 1         | 13         | 149.19       |
+| Algoritmi | Heuristiikka | Diagonal | Aika (ms) | Iterations | Polun pituus |
+|-----------|--------------|----------|-----------|------------|--------------|
+| A*        | Dijkstra     | Kyllä    | 25        | 9739       | 149.19       |
+| A*        | Euclidean    | Kyllä    | 25        | 6130       | 149.19       |
+| A*        | Chebyshev    | Kyllä    | 26        | 6398       | 149.19       |
+| JPS       | Euclidean    | Kyllä    | 1         | 13         | 149.19       |
+| A*        | Dijkstra     | Ei       | 21        | 9734       | 182.0        |
+| A*        | Manhattan    | Ei       | 35        | 7245       | 182.0        |
+| A*        | Euclidean    | Ei       | 21        | 8005       | 182.0        |
+| A*        | Chebyshev    | Ei       | 22        | 8057       | 182.0        |
 
  
 ### Satunnainen
