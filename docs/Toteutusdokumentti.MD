@@ -32,12 +32,17 @@ Aika (ms) laskettu kymmenen perättäisen haun keskiarvona
 | A*        | Chebyshev    | Ei       | 22        | 8057       | 182.0        |
 
  
-### Satunnainen
-| Algoritmi | Heuristiikka | Aika (ms) | Iterations | Polun pituus |
-|-----------|--------------|-----------|------------|--------------|
-| A*        | Dijkstra     | 18        | 5062       | 82.66        |
-| A*        | Euclidean    | 2         | 765        | 82.66        |
-| JPS       | Euclidean    | 1         | 93         | 82.66        |
+### [Testilabyrintti] (https://github.com/salmirinne/TiraLabra/tree/master/docs/img/testaus_doc.png)
+| Algoritmi | Heuristiikka | Diagonal | Aika (ms) | Iterations | Polun pituus |
+|-----------|--------------|----------|-----------|------------|--------------|
+| A*        | Dijkstra     | Kyllä    | 8         | 6407       | 137.29       |
+| A*        | Euclidean    | Kyllä    | 3         | 1825       | 137.29       |
+| A*        | Chebyshev    | Kyllä    | 2         | 1988       | 137.29       |
+| JPS       | Euclidean    | Kyllä    | 1         | 119        | 137.29       |
+| A*        | Dijkstra     | Ei       | 21        | 6455       | 166.0        |
+| A*        | Manhattan    | Ei       | 2         | 1826       | 166.0        |
+| A*        | Euclidean    | Ei       | 2         | 2218       | 166.0        |
+| A*        | Chebyshev    | Ei       | 2         | 2486       | 166.0        |
 
 ## Lähteet
 
