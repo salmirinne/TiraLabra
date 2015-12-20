@@ -77,6 +77,7 @@ public class GUI {
 		JButton reset = new JButton("Reset");
 		reset.addActionListener(ae -> {
 			grid.reset(false);
+			panel.setPath(null);
 			panel.repaint();
 		});
 		setup.add(reset);
@@ -84,6 +85,7 @@ public class GUI {
 		JButton clear = new JButton("Clear");
 		clear.addActionListener(ae -> {
 			grid.reset(true);
+			panel.setPath(null);
 			panel.repaint();
 		});
 		setup.add(clear);
