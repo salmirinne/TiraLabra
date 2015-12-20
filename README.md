@@ -2,6 +2,12 @@
 
 ## Asennus
 
+### Jar-tiedosto
+
+[Ajettava jar-tiedosto] (https://github.com/salmirinne/TiraLabra/blob/master/Demo.jar?raw=true)
+
+### Maven
+
 git clone https://github.com/salmirinne/TiraLabra.git  
 cd TiraLabra  
 mvn install  

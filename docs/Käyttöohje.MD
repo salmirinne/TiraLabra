@@ -1,0 +1,2 @@
+﻿[https://github.com/salmirinne/TiraLabra#tietorakenteet-ja-algoritmit-harjoitusty%C3%B6-dijkstra-a-ja-jump-point-search]
+(https://github.com/salmirinne/TiraLabra#tietorakenteet-ja-algoritmit-harjoitusty%C3%B6-dijkstra-a-ja-jump-point-search)
