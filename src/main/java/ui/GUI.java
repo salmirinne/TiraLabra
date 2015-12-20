@@ -37,7 +37,6 @@ public class GUI {
 		frame = new JFrame();
 		frame.setTitle("A* + Jump Point Search");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setResizable(false);
 		
 		JPanel setup = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
@@ -59,6 +58,7 @@ public class GUI {
 		algorithms.add(jpsButton);
 		
 		JCheckBox diagonal = new JCheckBox("Diagonal", true);
+		JCheckBox evaluated = new JCheckBox("Show evaluated");
 		
 		JButton start = new JButton("Start");
 		setup.add(start);
@@ -95,10 +95,16 @@ public class GUI {
 		});
 		setup.add(random);
 		
+		evaluated.addActionListener(ae -> {
+			panel.showEvaluated(evaluated.isSelected());
+			panel.repaint();
+		});
+		
 		setup.add(astarButton);
 		setup.add(jpsButton);
 		setup.add(heuristics);
 		setup.add(diagonal);
+		setup.add(evaluated);
 		
 		frame.add(setup, BorderLayout.PAGE_START);
 		frame.add(debug, BorderLayout.LINE_START);

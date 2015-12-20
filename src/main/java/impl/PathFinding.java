@@ -40,20 +40,6 @@ public abstract class PathFinding {
 	}
 	
 	/**
-	 * P‰ivitt‰‰ kuljetun et‰isyyden solmuun sen edelt‰j‰st‰ siten, ett‰ matka v‰li-ilmansuuntiin 
-	 * on sqrt(2); muuten 1
-	 * 
-	 * @param node Mihin solmuun tullaan
-	 * @param previous Mist‰ solmusta tultiin
-	 */
-	protected void updateCost(Node node, Node previous) {
-		if (node.x - previous.x == 0 || node.y - previous.y == 0)
-			node.cost = previous.cost + 1;
-		else	
-			node.cost = previous.cost + SQRT2;
-	}
-	
-	/**
 	 * Palauttaa polunetsint‰‰n kuluneen ajan
 	 * 
 	 * @return Polunetsint‰‰n kulunut aika

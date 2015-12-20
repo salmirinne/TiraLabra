@@ -19,6 +19,7 @@ public class GridPanel extends JPanel {
 	
 	private Grid grid;
 	private Node[] path;
+	private boolean showEvaluated;
 	
 	public GridPanel(Grid grid) {
 		this.grid = grid;
@@ -35,6 +36,10 @@ public class GridPanel extends JPanel {
 		this.path = path;
 	}
 	
+	protected void showEvaluated(boolean showEvaluated) {
+		this.showEvaluated = showEvaluated;
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -53,11 +58,15 @@ public class GridPanel extends JPanel {
 		for (int x = 0; x < Grid.WIDTH; x++) {
 			for (int y = 0; y < Grid.HEIGHT; y++) {
 				Node node = grid.getNode(x, y);
+				g.setColor(Color.BLACK);
 				g.drawRect(node.x * NODE_SIZE, node.y * NODE_SIZE, NODE_SIZE, NODE_SIZE);
+				if (node.opened && showEvaluated) {
+					g.setColor(Color.MAGENTA);
+					g.fillRect(node.x * NODE_SIZE + 1, node.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
+				}
 				if (node.blocked) {
 					g.setColor(Color.WHITE);
 					g.fillRect(node.x * NODE_SIZE + 1, node.y * NODE_SIZE + 1, NODE_SIZE - 1, NODE_SIZE - 1);
-					g.setColor(Color.BLACK);
 				}
 			}
 		}

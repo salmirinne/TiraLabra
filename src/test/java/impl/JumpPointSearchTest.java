@@ -45,10 +45,14 @@ public class JumpPointSearchTest {
 		assertEquals(143.9, grid.getEnd().cost, 0.1);
 	}
 	
+	/**
+	 * Katsotaan saavatko molemmat algoritmit samaa suuruusluokkaa olevan tuloksen
+	 * usean satunnaisen haun jälkeen
+	 */
 	@Test
 	public void testAStarAndJPS() {
 		AStar astar = new AStar(grid);
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 100; i++) {
 			grid.randomise();
 			grid.randomise();
 			grid.randomise();
@@ -56,7 +60,7 @@ public class JumpPointSearchTest {
 			float length = grid.getEnd().cost;
 			grid.reset(false);
 			jps.findPath();
-			assertEquals(length, grid.getEnd().cost, 1.0);
+			assertEquals(length, grid.getEnd().cost, 0.1);
 			grid.reset(true);
 		}
 	}

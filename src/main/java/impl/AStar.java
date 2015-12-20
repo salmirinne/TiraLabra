@@ -46,25 +46,23 @@ public class AStar extends PathFinding {
 				
 				if (!neighbour.closed) {
 					
-					// Alustetaan naapurin etäisyydet mikäli siihen tullaan ensimmäistä kertaa
-					if (neighbour.cost == 0) updateCost(neighbour, current);
+					// Alustetaan tarvittaessa heuristinen etäisyys maaliin
 					if (neighbour.heuristic == 0 ) computeHeuristic(neighbour);
 					
-					// Lisätään tarvittaessa naapuri tarkasteltavien solmujen joukkoon
-					if (!neighbour.opened) {
-						openQueue.insert(neighbour);
-						neighbour.opened = true;
-						neighbour.previous = current;
-					}
+					float cost = current.cost + getCost(current, neighbour);
 					
-					/* Päivitetään naapurisolmun edeltäjäksi nykyinen solmu jos siihen pääsee lyhyempää
-					 * polkua pitkin käyttäen nykyistä solmua ja päivitetään naapurin muuttunutta
-					 * etäisyysarviota minimikeossa
+					/* Lisätään tarvittaessa naapuri tarkasteltavien solmujen joukkoon tai päivitetään 
+					 * sen etäisyysarviota maaliin
 					 */
-					if (neighbour.previous.cost >= current.cost) {
+					if (!neighbour.opened || neighbour.cost > cost) {
+						neighbour.cost = cost;
 						neighbour.previous = current;
-						updateCost(neighbour, current);
-						openQueue.decreaseKey(neighbour);
+						if (!neighbour.opened) {
+							openQueue.insert(neighbour);
+							neighbour.opened = true;
+						} else {
+							openQueue.decreaseKey(neighbour);
+						}
 					}
 					
 				}
@@ -74,6 +72,10 @@ public class AStar extends PathFinding {
 		}
 		time = System.currentTimeMillis() - startTime;
 		System.out.println(debug());
+	}
+	
+	private float getCost(Node node, Node previous) {
+		return (node.x - previous.x == 0 || node.y - previous.y == 0) ? 1f : SQRT2;
 	}
 	
 }

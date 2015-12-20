@@ -1,4 +1,4 @@
-# Tietorakenteet ja algoritmit harjoitustyö (Dijkstra, A* ja Jump Point Search)
+﻿# Tietorakenteet ja algoritmit harjoitustyö (Dijkstra, A* ja Jump Point Search)
 
 ## Asennus
 
@@ -17,6 +17,7 @@ java -jar target/TiraLabra-1.0.0-SNAPSHOT.jar
 **JPS** - Jump Point Search  
 **Euclidean** - Valitse pudotusvalikosta heuristiikkafunktio  
 **Diagonal** - Sallitaanko siirtyminen väli-ilmansuuntiin  
+**Evaluated** - Näytetäänkö tarkastetut solmut  
 
 Alku- ja maalisolmun paikkaa voi vaihtaa hiirellä vetämällä  
 Esteitä voi lisätä vetämällä tai painamalla hiirtä

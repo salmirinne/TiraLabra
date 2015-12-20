@@ -92,10 +92,9 @@ public class JumpPointSearch extends PathFinding {
 	
 	/**
 	 * Pyrit‰‰n eliminoimaan ruudukon symmetrisyytt‰ mik‰ tarkoittaa, ett‰ yritet‰‰n
-	 * hyp‰t‰ ruudukossa kulkusuuntaa pitkin esimerkiksi esteeseen asti. Nyt voidaan olettaa,
-	 * ett‰ lyhin polku hyppypisteen ja tarkastellun naapurin v‰lill‰ on yksik‰sitteinen
-	 * eik‰ muita saman suorakulmion sis‰lt‰mi‰ polkuja tarvitse tarkastella, kun siirryt‰‰n 
-	 * kulkusuuntaan n‰hden seuraavaan suorakulmioon
+	 * hyp‰t‰ ruudukossa kulkusuuntaa pitkin mahdollisimman pitk‰lle esimerkiksi esteeseen asti. 
+	 * Nyt voidaan olettaa, ett‰ lyhin polku hyppypisteen ja tarkastellun naapurin v‰lill‰ on yksik‰sitteinen
+	 * eik‰ muita n‰iden kahden solmun v‰lisi‰ polkuja tarvitse tarkastella
 	 * 
 	 * @param x Annetun solmun x-koordinaatti
 	 * @param y Annetun solmun y-koordinaatti
