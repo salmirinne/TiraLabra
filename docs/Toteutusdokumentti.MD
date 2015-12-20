@@ -7,7 +7,15 @@ niiden käyttämiä heuristiikkafunktioita.
 
 ## Saavutetut aika- ja tilavaativuudet
 
-Lisätään myöhemmin
+### Aikavaativuus
+
+A* = O((|E|+|V|)log|V|)  
+JPS = O((|E|+|V|)log|V|)
+
+### Tilavaativuus
+
+A* = O(|E|)  
+JPS = O(|E|)
 
 ## Puutteet ja parannusehdotukset
 
@@ -17,7 +25,7 @@ on Manhattanin arvion mukaan |1-0|+|1-0|=2, mutta ohjelman toteutuksen mukaan sq
 
 ## Suorituskyky- ja O-analyysivertailu
 
-Aika (ms) laskettu kymmenen perättäisen haun keskiarvona
+Aika (ms) laskettu kymmenen perättäisen haun keskiarvona ja iterations tarkoittaa tarkasteltujen solmujen määrää
 
 ### Oletusruudukko
 | Algoritmi | Heuristiikka | Diagonal | Aika (ms) | Iterations | Polun pituus |
